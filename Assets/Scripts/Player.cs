@@ -9,11 +9,22 @@ public class Player : MonoBehaviour
     [SerializeField]
     private GameObject _laserPrefab = null;
     [SerializeField]
+    private GameObject _tripleShotPrefab = null;
+    [SerializeField]
     private float _laserCooldown = 1.0f;
-    private float _canFire = -1.0f;
     [SerializeField]
     private int _lives = 3;
+    [SerializeField]
+    private float _speedBoostMultiplier = 2.0f;
+    [SerializeField]
+    private float _powerUpDuration = 5.0f;
+    [SerializeField]
+    private GameObject _shieldVisualiser = null;
+
+    private float _canFire = -1.0f;
     private SpawnManager _spawnManager = null;
+    private bool _isTripleShotActive = false;
+    private bool _isShieldActive = false;
 
     void Start()
     {
@@ -25,6 +36,8 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Spawn Manager is null");
         }
+
+        _shieldVisualiser.SetActive(false);
     }
 
     void Update()
@@ -48,7 +61,12 @@ public class Player : MonoBehaviour
 
     void PlayerShooting()
     {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _isTripleShotActive)
+        {
+            _canFire = Time.time + _laserCooldown;
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
         {
             _canFire = Time.time + _laserCooldown;
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
@@ -57,6 +75,13 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if (_isShieldActive)
+        {
+            _isShieldActive = false;
+            _shieldVisualiser.SetActive(false);
+            return;
+        }
+
         _lives -= 1;
         Debug.Log("Lives: " + _lives);
 
@@ -65,5 +90,35 @@ public class Player : MonoBehaviour
             _spawnManager.OnPlayerDeath();
             Destroy(this.gameObject);
         }
+    }
+
+    public void TripleShotActive()
+    {
+        _isTripleShotActive = true;
+        StartCoroutine(TripleShotPowerDown());
+    }
+
+    IEnumerator TripleShotPowerDown()
+    {
+        yield return new WaitForSeconds(_powerUpDuration);
+        _isTripleShotActive = false;
+    }
+
+    public void SpeedBoostActive()
+    {
+        _playerSpeed *= _speedBoostMultiplier;
+        StartCoroutine(SpeedBoostPowerDown());
+    }
+
+    IEnumerator SpeedBoostPowerDown()
+    {
+        yield return new WaitForSeconds(_powerUpDuration);
+        _playerSpeed /= _speedBoostMultiplier;
+    }
+
+    public void ShieldsActive()
+    {
+        _isShieldActive = true;
+        _shieldVisualiser.SetActive(true);
     }
 }
