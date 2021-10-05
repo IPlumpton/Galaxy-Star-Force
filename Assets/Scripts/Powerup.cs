@@ -10,6 +10,8 @@ public class Powerup : MonoBehaviour
     private Player _player = null;
     [SerializeField]
     private int _powerupID;
+    [SerializeField]
+    private AudioClip _audioClip = null;
 
     void Start()
     {
@@ -37,22 +39,10 @@ public class Powerup : MonoBehaviour
     {
         if (other.tag == "Player")
         {
+            AudioSource.PlayClipAtPoint(_audioClip, new Vector3(transform.position.x, transform.position.y, -10f), 50.0f);
+
             if (_player != null)
             {
-                if (_powerupID == 0)
-                {
-                    _player.TripleShotActive();
-                    Debug.Log("Triple Shot Powerup Collected");
-                }
-                else if (_powerupID == 1)
-                {
-                    Debug.Log("Speed Powerup Collected");
-                }
-                else if (_powerupID == 2)
-                {
-                    Debug.Log("Shield Collected");
-                }
-
                 switch (_powerupID)
                 {
                     case 0:
