@@ -536,7 +536,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0}
   m_AnchorMax: {x: 0.5, y: 0}
-  m_AnchoredPosition: {x: 0.0000038147, y: 73}
+  m_AnchoredPosition: {x: 0.0000038147, y: 116}
   m_SizeDelta: {x: 181.3122, y: 39.6874}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &401677762
@@ -749,7 +749,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d328bd6610b9984c8185307d1ddb299, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _playerSpeed: 5.5
+  _basePlayerSpeed: 5.5
   _laserPrefab: {fileID: 6993985194529624936, guid: 70a6ba6d21f08a148a890d1a7843853b, type: 3}
   _tripleShotPrefab: {fileID: 6268002783246104442, guid: 2b0172d792c052042862233cbbc5adf9, type: 3}
   _laserCooldown: 0.3
@@ -840,7 +840,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 565011945}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: -2.17, z: 0}
   m_LocalScale: {x: 0.4, y: 0.4, z: 0.4}
   m_Children:
   - {fileID: 1902629285}
@@ -1349,10 +1349,11 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 3055512129932396378, guid: a9ab7a26aa9abb846b266d67f4a5e94f, type: 3}
   _enemyContainer: {fileID: 469818342}
   _powerups:
-  - {fileID: 1087459926279426706, guid: 51fea142d329221498dc869ceeea1ed8, type: 3}
   - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
-  - {fileID: 5997356913726673338, guid: 3711c3fc342b5454680059965db62ca4, type: 3}
-  _spawnDelay: 2
+  - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
+  - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
+  _spawnDelay: 10
+  _powerupSpawnRandomRange: {x: 1, y: 3}
 --- !u!4 &970699848
 Transform:
   m_ObjectHideFlags: 0
@@ -1557,6 +1558,7 @@ MonoBehaviour:
   _scoreText: {fileID: 510020119}
   _gameOverText: {fileID: 194416347}
   _restartText: {fileID: 401677762}
+  _quitGameText: {fileID: 1585007748}
   _gameManager: {fileID: 1497062952}
   _livesSprites:
   - {fileID: 21300000, guid: ba53e111f0125654cabfd4eefaf3a657, type: 3}
@@ -1621,6 +1623,85 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1585007745
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1585007746}
+  - component: {fileID: 1585007747}
+  - component: {fileID: 1585007748}
+  m_Layer: 5
+  m_Name: QuitGameText
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!224 &1585007746
+RectTransform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585007745}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1708724420}
+  m_RootOrder: 4
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+  m_AnchorMin: {x: 0.5, y: 0}
+  m_AnchorMax: {x: 0.5, y: 0}
+  m_AnchoredPosition: {x: 0.0000038147, y: 73}
+  m_SizeDelta: {x: 255.4, y: 39.6874}
+  m_Pivot: {x: 0.5, y: 0.5}
+--- !u!222 &1585007747
+CanvasRenderer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585007745}
+  m_CullTransparentMesh: 1
+--- !u!114 &1585007748
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1585007745}
+  m_Enabled: 0
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_Material: {fileID: 0}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_RaycastTarget: 1
+  m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
+  m_Maskable: 1
+  m_OnCullStateChanged:
+    m_PersistentCalls:
+      m_Calls: []
+  m_FontData:
+    m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
+    m_FontSize: 30
+    m_FontStyle: 1
+    m_BestFit: 0
+    m_MinSize: 10
+    m_MaxSize: 40
+    m_Alignment: 0
+    m_AlignByGeometry: 0
+    m_RichText: 1
+    m_HorizontalOverflow: 0
+    m_VerticalOverflow: 0
+    m_LineSpacing: 1
+  m_Text: '[ESC] - Quit Game'
 --- !u!1 &1586326783
 GameObject:
   m_ObjectHideFlags: 0
@@ -1703,6 +1784,7 @@ RectTransform:
   - {fileID: 1171594843}
   - {fileID: 194416346}
   - {fileID: 401677761}
+  - {fileID: 1585007746}
   m_Father: {fileID: 0}
   m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

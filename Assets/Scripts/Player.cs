@@ -5,7 +5,7 @@ using UnityEngine;
 public class Player : MonoBehaviour
 {
     [SerializeField]
-    private float _playerSpeed = 5.5f;
+    private float _basePlayerSpeed = 5.5f;
     [SerializeField]
     private GameObject _laserPrefab = null;
     [SerializeField]
@@ -33,6 +33,9 @@ public class Player : MonoBehaviour
     private int _playerScore = 0;
     private UIManager _UIManager = null;
     private AudioSource _audioSource;
+    private float _playerDamagedTime;
+    private float _playerSafePeriod = 0.1f;
+    private float _playerSpeed;
 
     void Start()
     {
@@ -58,6 +61,8 @@ public class Player : MonoBehaviour
         {
             Debug.LogError("Audio Source is null");
         }
+
+        _playerSpeed = _basePlayerSpeed;
 
         _shieldVisualiser.SetActive(false);
     }
@@ -101,14 +106,22 @@ public class Player : MonoBehaviour
 
     public void Damage()
     {
+        if(_playerDamagedTime > Time.time)
+        {
+            return;
+        }
+
         if (_isShieldActive)
         {
             _isShieldActive = false;
             _shieldVisualiser.SetActive(false);
+            _playerDamagedTime = Time.time + _playerSafePeriod;
             return;
         }
 
         _lives--;
+        _playerDamagedTime = Time.time + _playerSafePeriod;
+
         Debug.Log("Lives: " + _lives);
 
         _UIManager.UpdateLives(_lives);
@@ -147,26 +160,30 @@ public class Player : MonoBehaviour
     {
         if (_isSpeedPowerUpActive)
         {
-            StopCoroutine(SpeedBoostPowerDown());
-            StartCoroutine(SpeedBoostPowerDown());
+            StopCoroutine("SpeedBoostPowerDown");
+            StartCoroutine("SpeedBoostPowerDown");
+            Debug.Log($"Player Speed: {_playerSpeed}");
             return;
         }
         else
         {
+            StopCoroutine("SpeedBoostPowerDown");
+
             _playerSpeed *= _speedBoostMultiplier;
 
             _isSpeedPowerUpActive = true;
 
-            StopCoroutine(SpeedBoostPowerDown());
-            StartCoroutine(SpeedBoostPowerDown());
+            StartCoroutine("SpeedBoostPowerDown");
+            Debug.Log($"Player Speed: {_playerSpeed}");
         }
     }
 
     IEnumerator SpeedBoostPowerDown()
     {
         yield return new WaitForSeconds(_powerUpDuration);
-        _playerSpeed /= _speedBoostMultiplier;
+        _playerSpeed = _basePlayerSpeed;
         _isSpeedPowerUpActive = false;
+        Debug.Log($"Player Speed: {_playerSpeed}");
     }
 
     public void ShieldsActive()

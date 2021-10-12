@@ -12,6 +12,7 @@ public class SpawnManager : MonoBehaviour
     private GameObject[] _powerups;
     [SerializeField]
     private float _spawnDelay = 5.0f;
+    [SerializeField] private Vector2 _powerupSpawnRandomRange;
 
     private bool _stopSpawning = false;
 
@@ -41,7 +42,7 @@ public class SpawnManager : MonoBehaviour
         {
             int randomPowerup = Random.Range(0, _powerups.Length);
             GameObject _newPowerup = Instantiate(_powerups[randomPowerup]);
-            yield return new WaitForSeconds(Random.Range(3.0f, 7.0f));
+            yield return new WaitForSeconds(Random.Range(_powerupSpawnRandomRange.x, _powerupSpawnRandomRange.y));
         }
     }
 

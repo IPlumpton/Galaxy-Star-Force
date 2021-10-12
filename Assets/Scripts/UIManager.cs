@@ -5,18 +5,13 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour
 {
-    [SerializeField]
-    private Text _scoreText = null;
-    [SerializeField]
-    private Text _gameOverText = null;
-    [SerializeField]
-    private Text _restartText = null;
-    [SerializeField]
-    private GameManager _gameManager = null;
-    [SerializeField]
-    private Sprite[] _livesSprites;
-    [SerializeField]
-    private Image _livesImage;
+    [SerializeField] private Text _scoreText = null;
+    [SerializeField] private Text _gameOverText = null;
+    [SerializeField] private Text _restartText = null;
+    [SerializeField] private Text _quitGameText = null;
+    [SerializeField] private GameManager _gameManager = null;
+    [SerializeField] private Sprite[] _livesSprites;
+    [SerializeField] private Image _livesImage;
 
     private int _score = 0;
     // Start is called before the first frame update
@@ -48,6 +43,7 @@ public class UIManager : MonoBehaviour
         StartCoroutine(GameOverTextFlicker());
         _gameManager.GameOver();
         _restartText.enabled = true;
+        _quitGameText.enabled = true;
     }
 
     IEnumerator GameOverTextFlicker()
