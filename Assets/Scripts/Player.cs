@@ -4,38 +4,29 @@ using UnityEngine;
 
 public class Player : MonoBehaviour
 {
-    [SerializeField]
-    private float _basePlayerSpeed = 5.5f;
-    [SerializeField]
-    private GameObject _laserPrefab = null;
-    [SerializeField]
-    private GameObject _tripleShotPrefab = null;
-    [SerializeField]
-    private float _laserCooldown = 1.0f;
-    [SerializeField]
-    private int _lives = 3;
-    [SerializeField]
-    private float _speedBoostMultiplier = 2.0f;
-    [SerializeField]
-    private float _powerUpDuration = 5.0f;
-    [SerializeField]
-    private GameObject _shieldVisualiser = null;
-    [SerializeField]
-    private GameObject _leftEngineVisualiser, _rightEngineVisualiser;
-    [SerializeField]
-    private AudioClip _laserAudioClip;
+    [SerializeField] private float _basePlayerSpeed = 5.5f;
+    [SerializeField] private GameObject _laserPrefab = null;
+    [SerializeField] private GameObject _tripleShotPrefab = null;
+    [SerializeField] private float _laserCooldown = 1.0f;
+    [SerializeField] private int _lives = 3;
+    [SerializeField] private float _speedBoostMultiplier = 2.0f;
+    [SerializeField] private float _powerUpDuration = 5.0f;
+    [SerializeField] private GameObject _shieldVisualiser = null;
+    [SerializeField] private GameObject _leftEngineVisualiser, _rightEngineVisualiser;
+    [SerializeField] private AudioClip _laserAudioClip;
 
     private float _canFire = -1.0f;
-    private SpawnManager _spawnManager = null;
-    private bool _isTripleShotActive = false;
-    private bool _isShieldActive = false;
-    private bool _isSpeedPowerUpActive = false;
-    private int _playerScore = 0;
-    private UIManager _UIManager = null;
-    private AudioSource _audioSource;
     private float _playerDamagedTime;
     private float _playerSafePeriod = 0.1f;
     private float _playerSpeed;
+    private int _playerScore = 0;
+    private bool _isTripleShotActive = false;
+    private bool _isShieldActive = false;
+    private bool _isSpeedPowerUpActive = false;
+
+    private SpawnManager _spawnManager = null;
+    private UIManager _UIManager = null;
+    private AudioSource _audioSource;
 
     void Start()
     {
@@ -72,6 +63,8 @@ public class Player : MonoBehaviour
         PlayerMovement();
 
         PlayerShooting();
+
+        Debug.Log($"Player Speed: {_playerSpeed}");
     }
 
     void PlayerMovement()
@@ -101,6 +94,15 @@ public class Player : MonoBehaviour
             Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
             _audioSource.clip = _laserAudioClip;
             _audioSource.Play();
+        }
+
+        if(Input.GetKey(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
+        {
+            _playerSpeed = _basePlayerSpeed * _speedBoostMultiplier;
+        }
+        else if(Input.GetKeyUp(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
+        {
+            _playerSpeed = _basePlayerSpeed;
         }
     }
 
@@ -162,19 +164,19 @@ public class Player : MonoBehaviour
         {
             StopCoroutine("SpeedBoostPowerDown");
             StartCoroutine("SpeedBoostPowerDown");
-            Debug.Log($"Player Speed: {_playerSpeed}");
             return;
         }
         else
         {
             StopCoroutine("SpeedBoostPowerDown");
 
+            _playerSpeed = _basePlayerSpeed;
+
             _playerSpeed *= _speedBoostMultiplier;
 
             _isSpeedPowerUpActive = true;
 
             StartCoroutine("SpeedBoostPowerDown");
-            Debug.Log($"Player Speed: {_playerSpeed}");
         }
     }
 
