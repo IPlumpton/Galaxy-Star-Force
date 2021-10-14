@@ -394,7 +394,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: -1401777825
   m_SortingLayer: 2
-  m_SortingOrder: 0
+  m_SortingOrder: 1
   m_Sprite: {fileID: 21300000, guid: a45d21c30e0154a9ca1a5d6fb2bf3cfa, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
@@ -1349,10 +1349,10 @@ MonoBehaviour:
   _enemyPrefab: {fileID: 3055512129932396378, guid: a9ab7a26aa9abb846b266d67f4a5e94f, type: 3}
   _enemyContainer: {fileID: 469818342}
   _powerups:
-  - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
-  - {fileID: 1087459926279426706, guid: 51fea142d329221498dc869ceeea1ed8, type: 3}
   - {fileID: 5997356913726673338, guid: 3711c3fc342b5454680059965db62ca4, type: 3}
-  _spawnDelay: 10
+  - {fileID: 5997356913726673338, guid: 3711c3fc342b5454680059965db62ca4, type: 3}
+  - {fileID: 5997356913726673338, guid: 3711c3fc342b5454680059965db62ca4, type: 3}
+  _spawnDelay: 5
   _powerupSpawnRandomRange: {x: 5, y: 10}
 --- !u!4 &970699848
 Transform:
@@ -1992,13 +1992,14 @@ GameObject:
   - component: {fileID: 1902629285}
   - component: {fileID: 1902629284}
   - component: {fileID: 1902629286}
+  - component: {fileID: 1902629287}
   m_Layer: 0
   m_Name: Shield
-  m_TagString: Untagged
+  m_TagString: Shield
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!212 &1902629284
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -2083,6 +2084,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!114 &1902629287
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1902629283}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 27384cca72c103a458c7885cdaf84097, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _shieldStateRenderer: {fileID: 0}
 --- !u!1001 &2120781122010410818
 PrefabInstance:
   m_ObjectHideFlags: 0

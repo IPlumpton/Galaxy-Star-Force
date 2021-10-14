@@ -17,16 +17,17 @@ public class Player : MonoBehaviour
 
     private float _canFire = -1.0f;
     private float _playerDamagedTime;
-    private float _playerSafePeriod = 0.1f;
+    private float _playerSafePeriod = 0.2f;
     private float _playerSpeed;
     private int _playerScore = 0;
+    private int _shieldActiveLevel = 0;
     private bool _isTripleShotActive = false;
-    private bool _isShieldActive = false;
     private bool _isSpeedPowerUpActive = false;
 
     private SpawnManager _spawnManager = null;
     private UIManager _UIManager = null;
     private AudioSource _audioSource;
+    private Shield _playerShield;
 
     void Start()
     {
@@ -55,6 +56,8 @@ public class Player : MonoBehaviour
 
         _playerSpeed = _basePlayerSpeed;
 
+        _playerShield = _shieldVisualiser.GetComponent<Shield>();
+
         _shieldVisualiser.SetActive(false);
     }
 
@@ -63,8 +66,6 @@ public class Player : MonoBehaviour
         PlayerMovement();
 
         PlayerShooting();
-
-        Debug.Log($"Player Speed: {_playerSpeed}");
     }
 
     void PlayerMovement()
@@ -113,18 +114,29 @@ public class Player : MonoBehaviour
             return;
         }
 
-        if (_isShieldActive)
+        switch(_shieldActiveLevel)
         {
-            _isShieldActive = false;
-            _shieldVisualiser.SetActive(false);
-            _playerDamagedTime = Time.time + _playerSafePeriod;
-            return;
+            case 3:
+                _playerShield.SetShieldColor(2);
+                _shieldActiveLevel--;
+                _playerDamagedTime = Time.time + _playerSafePeriod;
+                return;
+            case 2:
+                _playerShield.SetShieldColor(1);
+                _shieldActiveLevel--;
+                _playerDamagedTime = Time.time + _playerSafePeriod;
+                return;
+            case 1:
+                _playerShield.SetShieldColor(0);
+                _shieldActiveLevel--;
+                _playerDamagedTime = Time.time + _playerSafePeriod;
+                return;
+            default:
+                break;
         }
 
         _lives--;
         _playerDamagedTime = Time.time + _playerSafePeriod;
-
-        Debug.Log("Lives: " + _lives);
 
         _UIManager.UpdateLives(_lives);
 
@@ -185,13 +197,13 @@ public class Player : MonoBehaviour
         yield return new WaitForSeconds(_powerUpDuration);
         _playerSpeed = _basePlayerSpeed;
         _isSpeedPowerUpActive = false;
-        Debug.Log($"Player Speed: {_playerSpeed}");
     }
 
     public void ShieldsActive()
     {
-        _isShieldActive = true;
         _shieldVisualiser.SetActive(true);
+        _shieldActiveLevel = 3;
+        //_playerShield.SetShieldColor(3);
     }
 
     public void AddScore(int points)
