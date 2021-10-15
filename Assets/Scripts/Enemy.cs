@@ -5,7 +5,6 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     [SerializeField] private float _enemySpeed = 3.0f;
-    [SerializeField] private float _fireRate = 3.0f;
     [SerializeField] private GameObject _laserPrefab;
 
     private Player _player;
@@ -13,6 +12,8 @@ public class Enemy : MonoBehaviour
     private AudioSource _audioSource = null;
     private float _horizontalPosition;
     private float _canFire = -1;
+    private float _fireRate;
+    private bool _isDestroyed = false;
 
 
     void Start()
@@ -43,7 +44,7 @@ public class Enemy : MonoBehaviour
     {
         CalculateMovement();
 
-        if(Time.time > _canFire)
+        if(Time.time > _canFire && _isDestroyed == false)
         {
             _fireRate = Random.Range(3f, 7f);
             _canFire = Time.time + _fireRate;
@@ -78,6 +79,8 @@ public class Enemy : MonoBehaviour
                 _player.Damage();
             }
 
+            _isDestroyed = true;
+
             _animator.SetTrigger("OnEnemyDeath");
 
             _audioSource.Play();
@@ -97,6 +100,8 @@ public class Enemy : MonoBehaviour
                 _player.AddScore(10);
             }
 
+            _isDestroyed = true;
+
             _animator.SetTrigger("OnEnemyDeath");
 
             _audioSource.Play();
@@ -108,6 +113,4 @@ public class Enemy : MonoBehaviour
             Destroy(this.gameObject, 2.8f);
         }
     }
-
-
 }

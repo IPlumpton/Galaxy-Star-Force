@@ -9,6 +9,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _tripleShotPrefab = null;
     [SerializeField] private float _laserCooldown = 1.0f;
     [SerializeField] private int _lives = 3;
+    [SerializeField] private int _playerStartingAmmo = 15;
     [SerializeField] private float _speedBoostMultiplier = 2.0f;
     [SerializeField] private float _powerUpDuration = 5.0f;
     [SerializeField] private GameObject _shieldVisualiser = null;
@@ -21,6 +22,7 @@ public class Player : MonoBehaviour
     private float _playerSpeed;
     private int _playerScore = 0;
     private int _shieldActiveLevel = 0;
+    private int _playerCurrentAmmo;
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerUpActive = false;
 
@@ -59,13 +61,21 @@ public class Player : MonoBehaviour
         _playerShield = _shieldVisualiser.GetComponent<Shield>();
 
         _shieldVisualiser.SetActive(false);
+
+        _playerCurrentAmmo = _playerStartingAmmo;
+
+        _UIManager.UpdateAmmoText(_playerCurrentAmmo);
     }
 
     void Update()
     {
         PlayerMovement();
 
-        PlayerShooting();
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        {
+            FireWeapon();
+        }
+
     }
 
     void PlayerMovement()
@@ -78,33 +88,39 @@ public class Player : MonoBehaviour
 
         transform.position = new Vector3(Mathf.Clamp(transform.position.x, -8.8f, 8.8f),
                                          Mathf.Clamp(transform.position.y, -3.5f, 4.0f), 0);
-    }
 
-    void PlayerShooting()
-    {
-        if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _isTripleShotActive)
-        {
-            _canFire = Time.time + _laserCooldown;
-            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
-            _audioSource.clip = _laserAudioClip;
-            _audioSource.Play();
-        }
-        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
-        {
-            _canFire = Time.time + _laserCooldown;
-            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
-            _audioSource.clip = _laserAudioClip;
-            _audioSource.Play();
-        }
-
-        if(Input.GetKey(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
+        if (Input.GetKey(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
         {
             _playerSpeed = _basePlayerSpeed * _speedBoostMultiplier;
         }
-        else if(Input.GetKeyUp(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
+        else if (Input.GetKeyUp(KeyCode.LeftShift) && _isSpeedPowerUpActive == false)
         {
             _playerSpeed = _basePlayerSpeed;
         }
+    }
+
+    void FireWeapon()
+    {
+        if(_playerCurrentAmmo <= 0)
+        {
+            return;
+        }
+
+        _canFire = Time.time + _laserCooldown;
+
+        if (_isTripleShotActive)
+        {
+            Instantiate(_tripleShotPrefab, transform.position, Quaternion.identity);
+        }
+        else if (!_isTripleShotActive)
+        {
+            Instantiate(_laserPrefab, transform.position + new Vector3(0, 0.8f, 0), Quaternion.identity);
+        }
+
+        _audioSource.clip = _laserAudioClip;
+        _audioSource.Play();
+        _playerCurrentAmmo--;
+        _UIManager.UpdateAmmoText(_playerCurrentAmmo);
     }
 
     public void Damage()

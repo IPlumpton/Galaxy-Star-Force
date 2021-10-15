@@ -9,6 +9,7 @@ public class UIManager : MonoBehaviour
     [SerializeField] private Text _gameOverText = null;
     [SerializeField] private Text _restartText = null;
     [SerializeField] private Text _quitGameText = null;
+    [SerializeField] private Text _ammoText = null;
     [SerializeField] private GameManager _gameManager = null;
     [SerializeField] private Sprite[] _livesSprites;
     [SerializeField] private Image _livesImage;
@@ -36,6 +37,11 @@ public class UIManager : MonoBehaviour
     public void UpdateLives(int currentLives)
     {
         _livesImage.sprite = _livesSprites[currentLives];
+    }
+
+    public void UpdateAmmoText(int newPlayerAmmo)
+    {
+        _ammoText.text = "Ammo: " + newPlayerAmmo.ToString();
     }
 
     public void OnPlayerDeath()
