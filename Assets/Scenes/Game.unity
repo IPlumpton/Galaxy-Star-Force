@@ -840,6 +840,7 @@ MonoBehaviour:
   _leftEngineVisualiser: {fileID: 132951602}
   _rightEngineVisualiser: {fileID: 739203123}
   _laserAudioClip: {fileID: 8300000, guid: 75676f361bdfeaf41a46623e95df3dbc, type: 3}
+  _outOfAmmoClip: {fileID: 8300000, guid: 6075b3aa81f47ce40a75d4f268b069c9, type: 3}
 --- !u!50 &565011948
 Rigidbody2D:
   serializedVersion: 4
@@ -953,7 +954,7 @@ AudioSource:
   MinDistance: 1
   MaxDistance: 500
   Pan2D: 0
-  rolloffMode: 0
+  rolloffMode: 1
   BypassEffects: 0
   BypassListenerEffects: 0
   BypassReverbZones: 0
@@ -1001,7 +1002,7 @@ AudioSource:
     m_Curve:
     - serializedVersion: 3
       time: 0
-      value: 0
+      value: 1
       inSlope: 0
       outSlope: 0
       tangentMode: 0
@@ -1432,8 +1433,10 @@ MonoBehaviour:
   - {fileID: 5997356913726673338, guid: 3711c3fc342b5454680059965db62ca4, type: 3}
   - {fileID: 1087459926279426706, guid: 51fea142d329221498dc869ceeea1ed8, type: 3}
   - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
+  _ammoCollectablePrefab: {fileID: 1087459926279426706, guid: b98fb6da90ae92a448a82f57bd0cf737, type: 3}
   _spawnDelay: 3
   _powerupSpawnRandomRange: {x: 10, y: 30}
+  _ammoSpawnDelay: 10
 --- !u!4 &970699848
 Transform:
   m_ObjectHideFlags: 0

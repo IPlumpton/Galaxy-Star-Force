@@ -15,6 +15,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shieldVisualiser = null;
     [SerializeField] private GameObject _leftEngineVisualiser, _rightEngineVisualiser;
     [SerializeField] private AudioClip _laserAudioClip;
+    [SerializeField] private AudioClip _outOfAmmoClip;
 
     private float _canFire = -1.0f;
     private float _playerDamagedTime;
@@ -62,9 +63,7 @@ public class Player : MonoBehaviour
 
         _shieldVisualiser.SetActive(false);
 
-        _playerCurrentAmmo = _playerStartingAmmo;
-
-        _UIManager.UpdateAmmoText(_playerCurrentAmmo);
+        UpdateAmmo(_playerStartingAmmo);
     }
 
     void Update()
@@ -103,6 +102,8 @@ public class Player : MonoBehaviour
     {
         if(_playerCurrentAmmo <= 0)
         {
+            _audioSource.clip = _outOfAmmoClip;
+            _audioSource.Play();
             return;
         }
 
@@ -119,8 +120,7 @@ public class Player : MonoBehaviour
 
         _audioSource.clip = _laserAudioClip;
         _audioSource.Play();
-        _playerCurrentAmmo--;
-        _UIManager.UpdateAmmoText(_playerCurrentAmmo);
+        UpdateAmmo(-1);
     }
 
     public void Damage()
@@ -220,6 +220,12 @@ public class Player : MonoBehaviour
         _shieldVisualiser.SetActive(true);
         _shieldActiveLevel = 3;
         //_playerShield.SetShieldColor(3);
+    }
+
+    public void UpdateAmmo(int ammoAdjustment)
+    {
+        _playerCurrentAmmo += ammoAdjustment;
+        _UIManager.UpdateAmmoText(_playerCurrentAmmo);
     }
 
     public void AddScore(int points)
