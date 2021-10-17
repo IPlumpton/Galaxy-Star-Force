@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 1087459926279426718}
   - component: {fileID: 1087459926279426719}
   - component: {fileID: 1087459926279426704}
-  - component: {fileID: 4545086756736570365}
+  - component: {fileID: 7650078769029623905}
   m_Layer: 0
-  m_Name: AmmoCollectable
+  m_Name: HealthCollectable
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -75,7 +75,7 @@ SpriteRenderer:
   m_SortingLayerID: -1401777825
   m_SortingLayer: 2
   m_SortingOrder: 2
-  m_Sprite: {fileID: 21300000, guid: ca65e2f263129434fb97878ca4ff6de9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 580d0aa8cf7d4df47a31929b9151be1a, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -133,7 +133,7 @@ Rigidbody2D:
   m_SleepingMode: 1
   m_CollisionDetection: 0
   m_Constraints: 0
---- !u!114 &4545086756736570365
+--- !u!114 &7650078769029623905
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -142,10 +142,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1087459926279426706}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e129078fadd4a53428d71a3833201188, type: 3}
+  m_Script: {fileID: 11500000, guid: 2281346576edcdd4fbc6d233bc76f949, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _audioClip: {fileID: 8300000, guid: 2868e580baee45d449931dc35a5ace81, type: 3}
+  _audioClip: {fileID: 8300000, guid: 944c87d3638abd949bfea2cdcb59def0, type: 3}
   _powerUpSpeed: 3
 --- !u!1 &5075162053768526728
 GameObject:

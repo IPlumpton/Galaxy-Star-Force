@@ -1434,9 +1434,11 @@ MonoBehaviour:
   - {fileID: 1087459926279426706, guid: 51fea142d329221498dc869ceeea1ed8, type: 3}
   - {fileID: 1501495706861325205, guid: f844adf135a56804999e0e75ec47b35b, type: 3}
   _ammoCollectablePrefab: {fileID: 1087459926279426706, guid: b98fb6da90ae92a448a82f57bd0cf737, type: 3}
+  _healthCollectablePrefab: {fileID: 1087459926279426706, guid: ca70699f84862f749a05a68137734261, type: 3}
   _spawnDelay: 3
   _powerupSpawnRandomRange: {x: 10, y: 30}
   _ammoSpawnDelay: 10
+  _healthSpawnDelay: 15
 --- !u!4 &970699848
 Transform:
   m_ObjectHideFlags: 0

@@ -8,9 +8,11 @@ public class SpawnManager : MonoBehaviour
     [SerializeField] private GameObject _enemyContainer = null;
     [SerializeField] private GameObject[] _powerups;
     [SerializeField] private GameObject _ammoCollectablePrefab = null;
+    [SerializeField] private GameObject _healthCollectablePrefab = null;
     [SerializeField] private float _spawnDelay = 5.0f;
     [SerializeField] private Vector2 _powerupSpawnRandomRange;
     [SerializeField] private float _ammoSpawnDelay = 15f;
+    [SerializeField] private float _healthSpawnDelay = 15f;
 
     private bool _stopSpawning = false;
 
@@ -19,6 +21,7 @@ public class SpawnManager : MonoBehaviour
         StartCoroutine(SpawnEnemyRoutine());
         StartCoroutine(SpawnPowerupRoutine());
         StartCoroutine(SpawnAmmoRoutine());
+        StartCoroutine(SpawnHealthCollectableRoutine());
     }
 
     IEnumerator SpawnEnemyRoutine()
@@ -53,6 +56,17 @@ public class SpawnManager : MonoBehaviour
         {
             GameObject newAmmoCollectable = Instantiate(_ammoCollectablePrefab);
             yield return new WaitForSeconds(_ammoSpawnDelay);
+        }
+    }
+
+    IEnumerator SpawnHealthCollectableRoutine()
+    {
+        yield return new WaitForSeconds(_healthSpawnDelay);
+
+        while (_stopSpawning == false)
+        {
+            GameObject newHealthCollectable = Instantiate(_healthCollectablePrefab);
+            yield return new WaitForSeconds(_healthSpawnDelay);
         }
     }
 
