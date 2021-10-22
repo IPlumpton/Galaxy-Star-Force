@@ -79,6 +79,8 @@ public class Enemy : MonoBehaviour
                 _player.Damage();
             }
 
+            gameObject.tag = "Untagged";
+
             _isDestroyed = true;
 
             _animator.SetTrigger("OnEnemyDeath");
@@ -99,6 +101,8 @@ public class Enemy : MonoBehaviour
             {
                 _player.AddScore(10);
             }
+
+            gameObject.tag = "Untagged";
 
             _isDestroyed = true;
 

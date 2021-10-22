@@ -7,7 +7,10 @@ public class Player : MonoBehaviour
     [SerializeField] private float _basePlayerSpeed = 5.5f;
     [SerializeField] private GameObject _laserPrefab = null;
     [SerializeField] private GameObject _tripleShotPrefab = null;
-    [SerializeField] private float _laserCooldown = 1.0f;
+    [SerializeField] private GameObject _photonPrefab = null;
+    [SerializeField] private float _laserCooldown = 1f;
+    [SerializeField] private float _photonCooldown = 1f;
+    [SerializeField] private float _photonPowerUpDuration = 10f;
     [SerializeField] private int _lives = 3;
     [SerializeField] private int _playerStartingAmmo = 15;
     [SerializeField] private float _speedBoostMultiplier = 2.0f;
@@ -15,6 +18,7 @@ public class Player : MonoBehaviour
     [SerializeField] private GameObject _shieldVisualiser = null;
     [SerializeField] private GameObject _leftEngineVisualiser, _rightEngineVisualiser;
     [SerializeField] private AudioClip _laserAudioClip;
+    [SerializeField] private AudioClip _photonAudioClip;
     [SerializeField] private AudioClip _outOfAmmoClip;
 
     private float _canFire = -1.0f;
@@ -26,6 +30,7 @@ public class Player : MonoBehaviour
     private int _playerCurrentAmmo;
     private bool _isTripleShotActive = false;
     private bool _isSpeedPowerUpActive = false;
+    private bool _isPhotonActive = false;
 
     private SpawnManager _spawnManager = null;
     private UIManager _UIManager = null;
@@ -70,11 +75,14 @@ public class Player : MonoBehaviour
     {
         PlayerMovement();
 
-        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        if(Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire && _isPhotonActive)
         {
-            FireWeapon();
+            FirePhoton();
         }
-
+        else if (Input.GetKeyDown(KeyCode.Space) && Time.time > _canFire)
+        {
+            FireLaser();
+        }
     }
 
     void PlayerMovement()
@@ -98,7 +106,7 @@ public class Player : MonoBehaviour
         }
     }
 
-    void FireWeapon()
+    void FireLaser()
     {
         if(_playerCurrentAmmo <= 0)
         {
@@ -121,6 +129,13 @@ public class Player : MonoBehaviour
         _audioSource.clip = _laserAudioClip;
         _audioSource.Play();
         UpdateAmmo(-1);
+    }
+
+    void FirePhoton()
+    {
+        _canFire = Time.time + _photonCooldown;
+        Instantiate(_photonPrefab, transform.position, Quaternion.identity);
+        _audioSource.Play();
     }
 
     public void Damage()
@@ -219,7 +234,20 @@ public class Player : MonoBehaviour
     {
         _shieldVisualiser.SetActive(true);
         _shieldActiveLevel = 3;
-        //_playerShield.SetShieldColor(3);
+        _playerShield.SetShieldColor(3);
+    }
+
+    public void PhotonLaserActive()
+    {
+        _isPhotonActive = true;
+        _audioSource.clip = _photonAudioClip;
+        StartCoroutine(PhotonLaserPowerDown());
+    }
+
+    IEnumerator PhotonLaserPowerDown()
+    {
+        yield return new WaitForSeconds(_photonPowerUpDuration);
+        _isPhotonActive = false;
     }
 
     public void UpdateAmmo(int ammoAdjustment)

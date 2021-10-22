@@ -6,7 +6,6 @@ public class Shield : MonoBehaviour
 
     private void Start()
     {
-        _shieldStateRenderer = GetComponent<SpriteRenderer>();
         SetShieldColor(3);
     }
 

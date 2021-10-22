@@ -54,6 +54,9 @@ public class Powerup : MonoBehaviour
                     case 2:
                         _player.ShieldsActive();
                         break;
+                    case 3:
+                        _player.PhotonLaserActive();
+                        break;
                     default:
                         Debug.Log("Unknown Powerup Collected");
                         break;
